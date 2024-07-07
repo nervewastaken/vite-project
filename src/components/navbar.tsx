@@ -7,6 +7,8 @@ const Navbar = () => {
 
   const handlelogout = () => {
     localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("phone");
     navigate("/");
   };
 
@@ -19,11 +21,14 @@ const Navbar = () => {
   }
 
   return (
-    <div className="h-20 bg-black text-blue-400 flex justify-between items-center">
-      <div className="text-xl px-10 py-4">Welcome {Mname}</div>
-      <div className="px-20">
+    <div className="h-20 bg-black text-blue-400 flex justify-between items-center px-10">
+      <div className="text-xl">Welcome {Mname}</div>
+      <div className="flex gap-4">
         <Button variant="outlined" onClick={handlelogout}>
           Logout
+        </Button>
+        <Button variant="outlined" onClick={() => navigate("/about")}>
+          About Us
         </Button>
       </div>
     </div>

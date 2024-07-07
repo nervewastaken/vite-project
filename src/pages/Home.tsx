@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../components/navbar";
+import { Button } from "@mui/material";
 
 export default function Home() {
   const [name, setName] = useState("");
@@ -10,7 +11,7 @@ export default function Home() {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
 
-  const handlesubmit = (e) => {
+  const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (name === "" || email === "" || phone === "") {
       window.alert("All fields must be filled");
@@ -66,12 +67,9 @@ export default function Home() {
             onChange={(e) => setPhone(e.target.value)}
             required
           />
-          <button
-            type="submit"
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          >
+          <Button variant="contained" type="submit">
             Submit
-          </button>
+          </Button>
         </Box>
       </div>
     </div>

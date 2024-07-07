@@ -1,11 +1,9 @@
-import React from 'react'
-
 const About = () => {
   return (
-    <div>
-      
+    <div  className="flex justify-center items-center h-screen">
+      Made by Krish Verma
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;
