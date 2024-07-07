@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Checkbox from "@mui/material/Checkbox";
+import { IconButton } from "@mui/material";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
 
 interface Department {
   department: string;
@@ -19,6 +21,9 @@ const departments: Department[] = [
 
 const DataGridforTree: React.FC = () => {
   const [selectedDepartments, setSelectedDepartments] = useState<
+    Record<string, boolean>
+  >({});
+  const [expandedDepartments, setExpandedDepartments] = useState<
     Record<string, boolean>
   >({});
 
@@ -82,10 +87,26 @@ const DataGridforTree: React.FC = () => {
     });
   };
 
+  const toggleDepartmentExpand = (department: string) => {
+    setExpandedDepartments((prevExpandedDepartments) => {
+      return {
+        ...prevExpandedDepartments,
+        [department]: !prevExpandedDepartments[department],
+      };
+    });
+  };
+
   return (
     <div>
       {departments.map((dept) => (
         <div key={dept.department}>
+          <IconButton onClick={() => toggleDepartmentExpand(dept.department)}>
+            {expandedDepartments[dept.department] ? (
+              <ExpandLess />
+            ) : (
+              <ExpandMore />
+            )}
+          </IconButton>
           <Checkbox
             checked={!!selectedDepartments[dept.department]}
             onChange={(e) =>
@@ -93,19 +114,21 @@ const DataGridforTree: React.FC = () => {
             }
           />
           <span>{dept.department}</span>
-          <ul style={{ marginLeft: 20 }}>
-            {dept.sub_departments.map((subDept) => (
-              <li key={subDept}>
-                <Checkbox
-                  checked={!!selectedDepartments[subDept]}
-                  onChange={(e) =>
-                    handleSubDepartmentChange(subDept, e.target.checked)
-                  }
-                />
-                <span>{subDept}</span>
-              </li>
-            ))}
-          </ul>
+          {expandedDepartments[dept.department] && (
+            <ul style={{ marginLeft: 20 }}>
+              {dept.sub_departments.map((subDept) => (
+                <li key={subDept}>
+                  <Checkbox
+                    checked={!!selectedDepartments[subDept]}
+                    onChange={(e) =>
+                      handleSubDepartmentChange(subDept, e.target.checked)
+                    }
+                  />
+                  <span>{subDept}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ))}
     </div>

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DataGridforTree from "../components/datagrid";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/navbar";
 
 // Define the columns for the DataGrid
 const columns: GridColDef[] = [
@@ -71,6 +72,7 @@ export default function DataGridDemo() {
 
   return (
     <div>
+      <Navbar />
       <Box sx={{ height: "100%", width: "100%" }}>
         <DataGrid
           rows={posts}

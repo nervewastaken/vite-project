@@ -1,7 +1,15 @@
 import React from "react";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const Mname = localStorage.getItem("name");
+  const navigate = useNavigate();
+
+  const handlelogout = () => {
+    localStorage.removeItem("name");
+    navigate("/");
+  };
 
   if (!Mname) {
     return (
@@ -12,8 +20,13 @@ const Navbar = () => {
   }
 
   return (
-    <div className="h-20 bg-black text-blue-400">
+    <div className="h-20 bg-black text-blue-400 flex justify-between items-center">
       <div className="text-xl px-10 py-4">Welcome {Mname}</div>
+      <div className="px-20">
+        <Button variant="outlined" onClick={handlelogout}>
+          Logout
+        </Button>
+      </div>
     </div>
   );
 };
