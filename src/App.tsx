@@ -1,15 +1,7 @@
-
-
-import './App.css'
-import Hero from './components/hero'
+import "./App.css";
 
 function App() {
- 
-  return (
-    <div>
-      <Hero/>
-    </div>
-  )
+  return <div></div>;
 }
 
-export default App
+export default App;
