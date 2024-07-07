@@ -1,8 +1,8 @@
-import * as React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DataGridforTree from "../components/datagrid";
+import { useNavigate } from "react-router-dom";
 
 // Define the columns for the DataGrid
 const columns: GridColDef[] = [
@@ -37,9 +37,18 @@ const fetchPosts = async (): Promise<Post[]> => {
 };
 
 export default function DataGridDemo() {
+  const name = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
+  const phone = localStorage.getItem("phone");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!name || !email || !phone) {
+      navigate("/");
+    }
+  }, [name, email, phone, navigate]);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -47,7 +56,7 @@ export default function DataGridDemo() {
         const data = await fetchPosts();
         setPosts(data);
       } catch (error) {
-        setError(error.message);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -58,10 +67,6 @@ export default function DataGridDemo() {
 
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
   }
 
   return (

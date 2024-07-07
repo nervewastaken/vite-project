@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
-import Checkbox from '@mui/material/Checkbox';
+import { useState, useEffect } from "react";
+import Checkbox from "@mui/material/Checkbox";
 
-const departments = [
+interface Department {
+  department: string;
+  sub_departments: string[];
+}
+
+const departments: Department[] = [
   {
     department: "customer_service",
     sub_departments: ["support", "customer_success"],
@@ -12,22 +17,27 @@ const departments = [
   },
 ];
 
-function DataGridforTree() {
-  const [selectedDepartments, setSelectedDepartments] = useState({});
+const DataGridforTree: React.FC = () => {
+  const [selectedDepartments, setSelectedDepartments] = useState<
+    Record<string, boolean>
+  >({});
 
   useEffect(() => {
     departments.forEach((dept) => {
       const allSubDepartmentsSelected = dept.sub_departments.every(
         (subDept) => selectedDepartments[subDept]
       );
-      if (allSubDepartmentsSelected) {
+      if (allSubDepartmentsSelected && !selectedDepartments[dept.department]) {
         setSelectedDepartments((prevSelectedDepartments) => {
           return {
             ...prevSelectedDepartments,
             [dept.department]: true,
           };
         });
-      } else if (selectedDepartments[dept.department]) {
+      } else if (
+        !allSubDepartmentsSelected &&
+        selectedDepartments[dept.department]
+      ) {
         setSelectedDepartments((prevSelectedDepartments) => {
           return {
             ...prevSelectedDepartments,
@@ -38,7 +48,7 @@ function DataGridforTree() {
     });
   }, [selectedDepartments]);
 
-  const handleDepartmentChange = (department, isChecked) => {
+  const handleDepartmentChange = (department: string, isChecked: boolean) => {
     setSelectedDepartments((prevSelectedDepartments) => {
       return {
         ...prevSelectedDepartments,
@@ -46,36 +56,24 @@ function DataGridforTree() {
       };
     });
 
-    if (isChecked) {
-      departments.forEach((dept) => {
-        if (dept.department === department) {
-          dept.sub_departments.forEach((subDept) => {
-            setSelectedDepartments((prevSelectedDepartments) => {
-              return {
-                ...prevSelectedDepartments,
-                [subDept]: true,
-              };
-            });
+    departments.forEach((dept) => {
+      if (dept.department === department) {
+        dept.sub_departments.forEach((subDept) => {
+          setSelectedDepartments((prevSelectedDepartments) => {
+            return {
+              ...prevSelectedDepartments,
+              [subDept]: isChecked,
+            };
           });
-        }
-      });
-    } else {
-      departments.forEach((dept) => {
-        if (dept.department === department) {
-          dept.sub_departments.forEach((subDept) => {
-            setSelectedDepartments((prevSelectedDepartments) => {
-              return {
-                ...prevSelectedDepartments,
-                [subDept]: false,
-              };
-            });
-          });
-        }
-      });
-    }
+        });
+      }
+    });
   };
 
-  const handleSubDepartmentChange = (subDepartment, isChecked) => {
+  const handleSubDepartmentChange = (
+    subDepartment: string,
+    isChecked: boolean
+  ) => {
     setSelectedDepartments((prevSelectedDepartments) => {
       return {
         ...prevSelectedDepartments,
@@ -112,6 +110,6 @@ function DataGridforTree() {
       ))}
     </div>
   );
-}
+};
 
 export default DataGridforTree;
