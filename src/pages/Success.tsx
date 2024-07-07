@@ -47,6 +47,7 @@ export default function DataGridDemo() {
 
   useEffect(() => {
     if (!name || !email || !phone) {
+      window.alert("Please fill in all the fields.");
       navigate("/");
     }
   }, [name, email, phone, navigate]);
