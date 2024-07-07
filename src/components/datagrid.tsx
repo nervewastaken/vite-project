@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Checkbox from '@mui/material/Checkbox';
 
 const departments = [
   {
@@ -87,9 +88,8 @@ function DataGridforTree() {
     <div>
       {departments.map((dept) => (
         <div key={dept.department}>
-          <input
-            type="checkbox"
-            checked={selectedDepartments[dept.department]}
+          <Checkbox
+            checked={!!selectedDepartments[dept.department]}
             onChange={(e) =>
               handleDepartmentChange(dept.department, e.target.checked)
             }
@@ -98,9 +98,8 @@ function DataGridforTree() {
           <ul style={{ marginLeft: 20 }}>
             {dept.sub_departments.map((subDept) => (
               <li key={subDept}>
-                <input
-                  type="checkbox"
-                  checked={selectedDepartments[subDept]}
+                <Checkbox
+                  checked={!!selectedDepartments[subDept]}
                   onChange={(e) =>
                     handleSubDepartmentChange(subDept, e.target.checked)
                   }

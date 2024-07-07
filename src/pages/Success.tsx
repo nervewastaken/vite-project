@@ -81,7 +81,7 @@ export default function DataGridDemo() {
           disableRowSelectionOnClick
         />
       </Box>
-      <div>
+      <div className="p-24 flex">
         <DataGridforTree />
       </div>
     </div>
