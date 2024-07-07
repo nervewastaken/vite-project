@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -10,6 +10,16 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("name") &&
+      localStorage.getItem("email") &&
+      localStorage.getItem("phone")
+    ) {
+      navigate("/success");
+    }
+  });
 
   const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
